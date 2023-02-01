@@ -8,12 +8,16 @@ jobs:
     runs-on: ubuntu-latest
     environment: DEV
     steps:
+      - name: Initialize Git repository
+        run: git init
       - name: Check status
         run: git status
   deploy-hmg:
     runs-on: ubuntu-latest
     environment: HMG
     steps:
+      - name: Initialize Git repository
+        run: git init
       - name: Create release
         run: git branch release-20230201-1200
       - name: Checkout to release
@@ -24,6 +28,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: PROD
     steps:
+      - name: Initialize Git repository
+        run: git init
       - name: Checkout
         run: git checkout main
       - name: Merge
