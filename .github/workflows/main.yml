@@ -31,7 +31,7 @@ jobs:
       - name: Checkout to release
         run: git checkout release-20230201-1200
       - name: Merge to release
-        run: git merge feature/pipeline-2
+        run: git merge origin/feature/pipeline-2
   deploy-prod:
     runs-on: ubuntu-latest
     environment: PROD
