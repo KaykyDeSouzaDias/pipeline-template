@@ -22,8 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: HMG
     steps:
-      - name: Branch all
-        run: git branch -a
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Fetch
+        run: git fetch --all
       - name: Create release
         run: git branch release-20230201-1200
       - name: Checkout to release
@@ -36,5 +38,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Fetch
+        run: git fetch --all
       - name: Merge
         run: git merge release-20230201-1200
