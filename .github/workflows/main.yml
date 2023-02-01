@@ -8,8 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: DEV
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
       - name: Repository file list
         run: ls
       - name: Fetch
@@ -22,16 +21,15 @@ jobs:
     runs-on: ubuntu-latest
     environment: HMG
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Fetch
-        run: git fetch --all
-      - name: Create release
-        run: git branch release-20230201-1200
-      - name: Checkout to release
-        run: git checkout release-20230201-1200
-      - name: Merge to release
-        run: git merge origin/feature/pipeline-2
+    - uses: actions/checkout@v2
+    - name: Approval
+      run: |
+          git fetch
+          git pull
+          git branch release-20230201-1200
+          git checkout release-20230201-1200
+          git merge feature/pipeline-2
+          git push
   deploy-prod:
     runs-on: ubuntu-latest
     environment: PROD
