@@ -12,12 +12,20 @@ jobs:
         run: git clone https://github.com/KaykyDeSouzaDias/pipeline-template.git
       - name: Initialize
         run: git init
+      - name: Fetch
+        run: git fetch
       - name: Check status
         run: git status
   deploy-hmg:
     runs-on: ubuntu-latest
     environment: HMG
     steps:
+      - name: Clone
+        run: git clone https://github.com/KaykyDeSouzaDias/pipeline-template.git
+      - name: Initialize
+        run: git init
+      - name: Fetch
+        run: git fetch
       - name: Create release
         run: git branch release-20230201-1200
       - name: Checkout to release
@@ -28,6 +36,12 @@ jobs:
     runs-on: ubuntu-latest
     environment: PROD
     steps:
+      - name: Clone
+        run: git clone https://github.com/KaykyDeSouzaDias/pipeline-template.git
+      - name: Initialize
+        run: git init
+      - name: Fetch
+        run: git fetch
       - name: Checkout
         run: git checkout main
       - name: Merge
