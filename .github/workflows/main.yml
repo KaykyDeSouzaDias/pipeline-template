@@ -24,8 +24,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Set Git config
       run: |
-          git config --local kaykydiasw@outlook.com.br
-          git config --local KaykyDeSouzaDias
+          git config --local user.email "kaykydiasw@outlook.com.br"
+          git config --local user.name "KaykyDeSouzaDias"
     - name: Approval
       run: |
           git fetch
