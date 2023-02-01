@@ -16,6 +16,8 @@ jobs:
         run: git init
       - name: Fetch
         run: git fetch --all
+      - name: Branch all
+        run: git branch -a
       - name: Check status
         run: git status
   deploy-hmg:
