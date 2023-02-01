@@ -10,10 +10,10 @@ jobs:
     steps:
       - name: Clone
         run: git clone https://github.com/KaykyDeSouzaDias/pipeline-template.git
+      - name: CD
+        run: cd pipeline-template
       - name: Initialize
-        run: |
-          cd pipeline-template
-          git init
+        run: git init
       - name: Fetch
         run: git fetch
       - name: Check status
@@ -24,10 +24,10 @@ jobs:
     steps:
       - name: Clone
         run: git clone https://github.com/KaykyDeSouzaDias/pipeline-template.git
+      - name: CD
+        run: cd pipeline-template
       - name: Initialize
-        run: |
-          cd pipeline-template
-          git init
+        run: git init
       - name: Fetch
         run: git fetch
       - name: Create release
@@ -42,10 +42,10 @@ jobs:
     steps:
       - name: Clone
         run: git clone https://github.com/KaykyDeSouzaDias/pipeline-template.git
+      - name: CD
+        run: cd pipeline-template
       - name: Initialize
-        run: |
-          cd pipeline-template
-          git init
+        run: git init
       - name: Fetch
         run: git fetch
       - name: Checkout
