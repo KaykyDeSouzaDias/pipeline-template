@@ -8,9 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: DEV
     steps:
-      - name: Check out repository code
+      - name: Checkout
         uses: actions/checkout@v3
-      - name: LIST
+      - name: Repository file list
         run: ls
       - name: Fetch
         run: git fetch --all
@@ -22,16 +22,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: HMG
     steps:
-      - name: Clone
-        run: git clone https://github.com/KaykyDeSouzaDias/pipeline-template.git
-      - name: CD
-        run: cd pipeline-template
-      - name: Initialize
-        run: git init
-      - name: Fetch
-        run: git fetch
-      - name: Checkout
-        run: git checkout master
+      - name: Branch all
+        run: git branch -a
       - name: Create release
         run: git branch release-20230201-1200
       - name: Checkout to release
@@ -42,15 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: PROD
     steps:
-      - name: Clone
-        run: git clone https://github.com/KaykyDeSouzaDias/pipeline-template.git
-      - name: CD
-        run: cd pipeline-template
-      - name: Initialize
-        run: git init
-      - name: Fetch
-        run: git fetch
       - name: Checkout
-        run: git checkout master
+        uses: actions/checkout@v3
       - name: Merge
         run: git merge release-20230201-1200
