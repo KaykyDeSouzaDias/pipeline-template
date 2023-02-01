@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: Clone
         run: git clone https://github.com/KaykyDeSouzaDias/pipeline-template.git
+      - name: Initialize
+        run: git init
       - name: CD
         run: cd pipeline-template
       - name: Fetch
