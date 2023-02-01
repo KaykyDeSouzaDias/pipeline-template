@@ -11,7 +11,9 @@ jobs:
       - name: Clone
         run: git clone https://github.com/KaykyDeSouzaDias/pipeline-template.git
       - name: Initialize
-        run: git init
+        run: |
+          cd pipeline-template
+          git init
       - name: Fetch
         run: git fetch
       - name: Check status
@@ -23,7 +25,9 @@ jobs:
       - name: Clone
         run: git clone https://github.com/KaykyDeSouzaDias/pipeline-template.git
       - name: Initialize
-        run: git init
+        run: |
+          cd pipeline-template
+          git init
       - name: Fetch
         run: git fetch
       - name: Create release
@@ -39,7 +43,9 @@ jobs:
       - name: Clone
         run: git clone https://github.com/KaykyDeSouzaDias/pipeline-template.git
       - name: Initialize
-        run: git init
+        run: |
+          cd pipeline-template
+          git init
       - name: Fetch
         run: git fetch
       - name: Checkout
