@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: DEV
     steps:
+      - name: LIST
+        run: ls
       - name: Fetch
         run: git fetch --all
       - name: Branch all
