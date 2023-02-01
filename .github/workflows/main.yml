@@ -31,7 +31,8 @@ jobs:
           git checkout feature/pipeline-2
           git branch -a
           git checkout release-20230201-1200
-          git merge feature/pipeline-2
+          git branch -a
+          git merge origin/feature/pipeline-2
           git push
   deploy-prod:
     runs-on: ubuntu-latest
