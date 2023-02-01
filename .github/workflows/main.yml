@@ -8,16 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     environment: DEV
     steps:
-      - name: Run o dev
-        run: echo COÉ TA NO DEV
+      - name: Check status
+        run: git status
   deploy-hmg:
     runs-on: ubuntu-latest
     environment: HMG
     steps:
-      - name: Checkout
-        run: git checkout main
-      - name: Check status
-        run: git status
       - name: Create release
         run: git branch release-20230201-1200
       - name: Checkout to release
