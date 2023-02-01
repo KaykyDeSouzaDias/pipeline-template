@@ -28,7 +28,7 @@ jobs:
           git pull
           git branch release-20230201-1200
           git checkout release-20230201-1200
-          git merge feature/pipeline-2
+          git merge feature/test
           git push
   deploy-prod:
     runs-on: ubuntu-latest
