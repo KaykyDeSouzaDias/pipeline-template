@@ -31,7 +31,7 @@ jobs:
       - name: Fetch
         run: git fetch
       - name: Checkout
-        run: git checkout main
+        run: git checkout master
       - name: Create release
         run: git branch release-20230201-1200
       - name: Checkout to release
@@ -51,6 +51,6 @@ jobs:
       - name: Fetch
         run: git fetch
       - name: Checkout
-        run: git checkout main
+        run: git checkout master
       - name: Merge
         run: git merge release-20230201-1200
