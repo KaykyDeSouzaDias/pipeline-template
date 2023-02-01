@@ -22,6 +22,10 @@ jobs:
     environment: HMG
     steps:
     - uses: actions/checkout@v2
+    - name: Set Git config
+      run: |
+          git config --local kaykydiasw@outlook.com.br
+          git config --local KaykyDeSouzaDias
     - name: Approval
       run: |
           git fetch
