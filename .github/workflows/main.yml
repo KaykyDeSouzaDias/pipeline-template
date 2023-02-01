@@ -30,6 +30,8 @@ jobs:
         run: git init
       - name: Fetch
         run: git fetch
+      - name: Checkout
+        run: git checkout main
       - name: Create release
         run: git branch release-20230201-1200
       - name: Checkout to release
