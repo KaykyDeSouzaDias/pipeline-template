@@ -27,6 +27,7 @@ jobs:
           git fetch
           git pull
           git branch release-20230201-1200
+          git branch -a
           git checkout release-20230201-1200
           git merge feature/test
           git push
