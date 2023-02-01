@@ -14,11 +14,21 @@ jobs:
     runs-on: ubuntu-latest
     environment: HMG
     steps:
-      - name: Run o hmg
-        run: echo COÉ TA NO HMG
+      - name: Checkout
+        run: git checkout main
+      - name: Check status
+        run: git status
+      - name: Create release
+        run: git branch release-20230201-1200
+      - name: Checkout to release
+        run: git checkout release-20230201-1200
+      - name: Merge to release
+        run: git merge feature/pipeline-2
   deploy-prod:
     runs-on: ubuntu-latest
     environment: PROD
     steps:
-      - name: Run o prod
-        run: echo COÉ TA NO PROD
+      - name: Checkout
+        run: git checkout main
+      - name: Merge
+        run: git merge release-20230201-1200
