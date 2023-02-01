@@ -8,12 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: DEV
     steps:
-      - name: Clone
-        run: git clone https://github.com/KaykyDeSouzaDias/pipeline-template.git
-      - name: CD
-        run: cd pipeline-template
-      - name: Initialize
-        run: git init
       - name: Fetch
         run: git fetch --all
       - name: Branch all
