@@ -39,5 +39,29 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Production process
-        run: git branch -a
+      - name: Prod
+        run: |
+          git fetch
+          git checkout release${{ vars.RELEASE_VERSION }}
+          npm run tauri build
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ vars.RELEASE_VERSION }}
+          release_name: Mood-Fi ${{ vars.RELEASE_VERSION }}
+          body: ${{ vars.RELEASE_BODY }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./pipeline-template/src-tauri/target/release/bundle/msi/pipeline-template_1.0.0_x64_en-US.msi
+          asset_name: pipeline-template_1.0.0_x64_en-US.msi
+          asset_content_type: application/msi
