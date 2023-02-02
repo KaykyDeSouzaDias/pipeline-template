@@ -1,4 +1,4 @@
-name: Mood-Fi ${{ vars.PIPELINE_VERSION }} pipeline
+name: Mood-Fi pipeline
 
 on:
   workflow_dispatch:
