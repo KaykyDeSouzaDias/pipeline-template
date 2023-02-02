@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "pipeline-template",
-    "version": "0.0.0"
+    "version": "1.0.0"
   },
   "tauri": {
     "allowlist": {
@@ -16,7 +16,7 @@
     "bundle": {
       "active": true,
       "category": "DeveloperTool",
-      "copyright": "",
+      "copyright": "Kayky Dias",
       "deb": {
         "depends": []
       },
@@ -28,8 +28,8 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
-      "longDescription": "",
+      "identifier": "com.pipeline-template.dev",
+      "longDescription": "A pipeline test",
       "macOS": {
         "entitlements": null,
         "exceptionDomain": "",
@@ -38,7 +38,7 @@
         "signingIdentity": null
       },
       "resources": [],
-      "shortDescription": "",
+      "shortDescription": "pipeline test",
       "targets": "all",
       "windows": {
         "certificateThumbprint": null,
