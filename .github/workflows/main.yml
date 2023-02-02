@@ -33,55 +33,90 @@ jobs:
           git branch release${{ vars.RELEASE_VERSION }}
           git checkout release${{ vars.RELEASE_VERSION }}
           git push -u origin release${{ vars.RELEASE_VERSION }}
-  deploy-prod:
-    runs-on: ubuntu-latest
+  create-release:
     environment: PROD
+    permissions:
+      contents: write
+    runs-on: ubuntu-20.04
+    outputs:
+      release_id: ${{ steps.create-release.outputs.result }}
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - name: setup node
+        uses: actions/setup-node@v3
         with:
-          node-version: '16.17.1'
-      - name: Cache dependencies
-        uses: actions/cache@v2
+          node-version: 16
+      - name: get version
+        run: echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+      - name: create release
+        id: create-release
+        uses: actions/github-script@v6
         with:
-          path: ~/.npm
-          key: npm-${{ hashFiles('package-lock.json') }}
-          restore-keys: npm-
-      - name: Prod
+          script: |
+            const { data } = await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: `v${{ vars.RELEASE_VERSION }}`,
+              name: `Mood-Fi ${{ vars.RELEASE_VERSION }}`,
+              body: '${{ vars.RELEASE_BODY }}',
+              draft: true,
+              prerelease: false
+            })
+
+            return data.id
+
+  build-tauri:
+    needs: create-release
+    environment: PROD
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [macos-latest, ubuntu-20.04, windows-latest]
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+      - name: install dependencies (ubuntu only)
+        if: matrix.platform == 'ubuntu-20.04'
         run: |
-          git fetch
-          cd pipeline-template
-          npm install
-          git checkout release${{ vars.RELEASE_BRANCH }}
-          if [ $actionsBuild == "true" ]
-          then
-            sudo apt-get update
-            sudo apt-get -y install libgtk-3-dev mingw-w64 g++ gcc build-essential libx11-dev
-          else
-            sudo apt-get update
-            sudo apt-get install mingw-w64 g++ gcc build-essential libx11-dev
-          fi
-          npm run tauri build
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
+      - name: install app dependencies and build it
+        run: yarn && yarn build
+      - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ vars.RELEASE_VERSION }}
-          release_name: Mood-Fi ${{ vars.RELEASE_VERSION }}
-          body: ${{ vars.RELEASE_BODY }}
-          draft: false
-          prerelease: false
-      - name: Upload Release Asset
-        id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
+          releaseId: ${{ needs.create-release.outputs.release_id }}
+
+  publish-release:
+    permissions:
+      contents: write
+    runs-on: ubuntu-20.04
+    needs: [create-release, build-tauri]
+    environment: PROD
+
+    steps:
+      - name: publish release
+        id: publish-release
+        uses: actions/github-script@v6
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          release_id: ${{ needs.create-release.outputs.release_id }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./pipeline-template/src-tauri/target/release/bundle/msi/pipeline-template_1.0.0_x64_en-US.msi
-          asset_name: pipeline-template_1.0.0_x64_en-US.msi
-          asset_content_type: application/msi
+          script: |
+            github.rest.repos.updateRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: process.env.release_id,
+              draft: false,
+              prerelease: false
+            })
