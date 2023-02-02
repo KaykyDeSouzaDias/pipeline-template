@@ -52,7 +52,7 @@ jobs:
       - name: Prod
         run: |
           git fetch
-          ls
+          cd pipeline-template
           npm install
           git checkout release${{ vars.RELEASE_BRANCH }}
           npm run tauri build
