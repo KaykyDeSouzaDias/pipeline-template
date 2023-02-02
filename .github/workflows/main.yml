@@ -42,7 +42,7 @@ jobs:
       - name: Prod
         run: |
           git fetch
-          git checkout release${{ vars.RELEASE_VERSION }}
+          git checkout release${{ vars.RELEASE_BRANCH }}
           npm run tauri build
       - name: Create release
         id: create_release
