@@ -31,7 +31,8 @@ jobs:
           git fetch
           git pull
           git branch release${{ vars.RELEASE_VERSION }}
-          git push –set-upstream
+          git checkout release${{ vars.RELEASE_VERSION }}
+          git push -u origin release${{ vars.RELEASE_VERSION }}
   deploy-prod:
     runs-on: ubuntu-latest
     environment: PROD
