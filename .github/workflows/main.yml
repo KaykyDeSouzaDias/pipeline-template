@@ -49,14 +49,10 @@ jobs:
           path: ~/.npm
           key: npm-${{ hashFiles('package-lock.json') }}
           restore-keys: npm-
-      - name: Install dependencies
-        run: |
-          npm cache clean -f
-          rm -rf node_modules
-          npm i
       - name: Prod
         run: |
           git fetch
+          ls
           npm install
           git checkout release${{ vars.RELEASE_BRANCH }}
           npm run tauri build
