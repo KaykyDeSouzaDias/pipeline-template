@@ -49,7 +49,7 @@ jobs:
           path: ~/.npm
           key: npm-${{ hashFiles('package-lock.json') }}
           restore-keys: npm-
-      - run: npm ci
+      - run: npm install
       - name: Prod
         run: |
           git fetch
