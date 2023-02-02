@@ -1,4 +1,4 @@
-name: Mood-Fi pipeline
+run-name: Mood-Fi ${{ vars.PIPELINE_VERSION }} deploy pipeline
 
 on:
   workflow_dispatch:
