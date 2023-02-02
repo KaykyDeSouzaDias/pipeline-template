@@ -18,6 +18,7 @@ jobs:
       - name: Check status
         run: git status
   deploy-hmg:
+    needs: deploy-dev
     runs-on: ubuntu-latest
     environment: HMG
     steps:
@@ -33,43 +34,9 @@ jobs:
           git branch release${{ vars.RELEASE_VERSION }}
           git checkout release${{ vars.RELEASE_VERSION }}
           git push -u origin release${{ vars.RELEASE_VERSION }}
-  create-release:
-    environment: PROD
-    permissions:
-      contents: write
-    runs-on: ubuntu-20.04
-    outputs:
-      release_id: ${{ steps.create-release.outputs.result }}
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - name: get version
-        run: echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
-      - name: create release
-        id: create-release
-        uses: actions/github-script@v6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          script: |
-            const { data } = await github.rest.repos.createRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              tag_name: `v${{ vars.RELEASE_VERSION }}`,
-              name: `Mood-Fi ${{ vars.RELEASE_VERSION }}`,
-              body: '${{ vars.RELEASE_BODY }}',
-              draft: true,
-              prerelease: false
-            })
-
-            return data.id
-
-  build-tauri:
-    needs: create-release
+          
+  deploy-prod:
+    needs: deploy-hmg
     environment: PROD
     permissions:
       contents: write
@@ -98,27 +65,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          releaseId: ${{ needs.create-release.outputs.release_id }}
-
-  publish-release:
-    permissions:
-      contents: write
-    runs-on: ubuntu-20.04
-    needs: [create-release, build-tauri]
-    environment: PROD
-
-    steps:
-      - name: publish release
-        id: publish-release
-        uses: actions/github-script@v6
-        env:
-          release_id: ${{ needs.create-release.outputs.release_id }}
-        with:
-          script: |
-            github.rest.repos.updateRelease({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              release_id: process.env.release_id,
-              draft: false,
-              prerelease: false
-            })
+          tagName: v${{ vars.RELEASE_VERSION }}
+          releaseName: 'Mood-Fi ${{ vars.RELEASE_VERSION }}'
+          releaseBody: '${{ vars.RELEASE_BODY }}'
+          releaseDraft: true
+          prerelease: false
