@@ -31,7 +31,7 @@ jobs:
           git fetch
           git pull
           git branch release${{ vars.RELEASE_VERSION }}
-          git push
+          git push –set-upstream
   deploy-prod:
     runs-on: ubuntu-latest
     environment: PROD
