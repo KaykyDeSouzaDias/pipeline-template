@@ -50,7 +50,12 @@
       "csp": null
     },
     "updater": {
-      "active": false
+      "active": true,
+      "endpoints": [
+        "https://gist.github.com/KaykyDeSouzaDias/e8efe2cbe1154f21438c43cae0c68fde"
+      ],
+      "dialog": true,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEFGMDBBQjUxQkZCNzMwRDUKUldUVk1MZS9VYXNBcjdIOXNXcXVOMTAwaUI1TUZ1V1B3Wkh0Y01hSEZMNDkyamV6cDg4dVVHY3cK"
     },
     "windows": [
       {
