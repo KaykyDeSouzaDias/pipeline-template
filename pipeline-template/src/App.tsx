@@ -28,7 +28,7 @@ function App() {
         </a>
       </div>
 
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
+      <p>COÉ, VERSÃO 2.0.0 AI MALUCO.</p>
 
       <div className="row">
         <div>
