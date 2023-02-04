@@ -78,5 +78,6 @@ jobs:
           tagName: v${{ vars.RELEASE_VERSION }}
           releaseName: 'Mood-Fi ${{ vars.RELEASE_VERSION }}'
           releaseBody: '${{ vars.RELEASE_BODY }}'
+          target_repo: https://github.com/KaykyDeSouzaDias/pipeline-releases
           releaseDraft: false
           prerelease: false
