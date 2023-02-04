@@ -52,7 +52,7 @@ jobs:
         run: |
           git fetch
           git pull
-          git checkout release${{ vars.RELEASE_BRANCH_VERSION }}
+          git checkout release${{ vars.KAYKY_DIAS }}
       - name: setup node
         uses: actions/setup-node@v3
         with:
