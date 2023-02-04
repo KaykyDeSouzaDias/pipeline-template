@@ -31,9 +31,9 @@ jobs:
       run: |
           git fetch
           git pull
-          git branch release${{ vars.RELEASE_VERSION }}
-          git checkout release${{ vars.RELEASE_VERSION }}
-          git push -u origin release${{ vars.RELEASE_VERSION }}
+          git branch release${{ vars.RELEASE_BRANCH_VERSION }}
+          git checkout release${{ vars.RELEASE_BRANCH_VERSION }}
+          git push -u origin release${{ vars.RELEASE_BRANCH_VERSION }}
           
   deploy-prod:
     needs: deploy-hmg
@@ -52,7 +52,7 @@ jobs:
         run: |
           git fetch
           git pull
-          git checkout release${{ vars.RELEASE_BRANCH }}
+          git checkout release${{ vars.RELEASE_BRANCH_VERSION }}
       - name: setup node
         uses: actions/setup-node@v3
         with:
