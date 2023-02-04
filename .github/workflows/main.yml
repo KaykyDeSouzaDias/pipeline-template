@@ -66,6 +66,7 @@ jobs:
           cd pipeline-template
           sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
       - name: install app dependencies and build it
+        id: Release-Pipeline
         run: |
           cd pipeline-template
           yarn && yarn build
@@ -78,6 +79,13 @@ jobs:
           tagName: v${{ vars.RELEASE_VERSION }}
           releaseName: 'Mood-Fi ${{ vars.RELEASE_VERSION }}'
           releaseBody: '${{ vars.RELEASE_BODY }}'
-          target_repo: https://github.com/KaykyDeSouzaDias/pipeline-releases
           releaseDraft: false
           prerelease: false
+      - name: Duplicate Release With Asset to public_Repo
+        uses: Hs1r1us/Release-AIO@v2.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: 'inherit'
+          body: 'hello world' # Will be added in the new release
+          repo: 'KaykyDeSouzaDias/pipeline-releases' # The format is like owner/repo
